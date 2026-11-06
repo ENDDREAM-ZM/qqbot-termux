@@ -1,0 +1,19 @@
+# 本地大文件（自行下载，不进版本库）
+packages/*.deb
+packages/*.tar.gz
+packages/*.tar.xz
+packages/*.zip
+
+# 运行时产物
+*.log
+logs/
+cache/
+temp/
+data/
+
+# 敏感信息
+.env
+*.key
+qq-config/
+onebot11_*.json
+webui.json

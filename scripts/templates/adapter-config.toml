@@ -1,0 +1,63 @@
+# ============================================================
+# MaiBot 统一 QQ 连接器（SnowLuma / NapCat 适配器）配置
+# 插件版本 v1.1.13 · 配置结构版本 2.7.1
+# 连接方向：MaiBot（客户端）→ SnowLuma 正向 WebSocket
+# ============================================================
+
+[plugin]
+enabled = true                      # 启用适配器，必须为 true 才会建立连接
+qq_face_parse_mode = "description"  # QQ 表情解析：description 转中文描述 / emoji 转近似 Unicode 表情
+enable_text_face_conversion = false # 文本转 QQ 表情（如 [流泪] /流泪 → 原生表情）
+enable_text_at_conversion = false   # 文本转 @（@QQ号 / @群名片 完整唯一匹配才转换）
+config_version = "2.7.1"            # 配置结构版本，一般不要改动
+
+[client]
+client_type = "napcat"      # 对端客户端类型：本机用 NapCat（auto 会自动判定，写死更稳）
+server = "127.0.0.1"        # SnowLuma 地址；同机填回环，同 Docker 网络填服务名 snowluma
+port = 3001                 # SnowLuma 正向 WebSocket 端口
+token = ""                  # 访问令牌；SnowLuma 开启鉴权后填相同 token
+heartbeat_interval = 30.0   # 协议层心跳保活间隔（秒），必须大于 0
+reconnect_delay_sec = 5.0   # 断线重连等待（秒）
+action_timeout_sec = 30.0   # 动作接口超时（秒）；SnowLuma 群消息发送后要回查，别调太小
+connection_id = ""          # 连接标识；单链路留空，多实例时每条链路填不同值
+
+[chat_abilities]
+enable_private_chat_tool = false  # 主动私聊工具
+enable_poke_tool = false          # 戳一戳工具
+enable_recall_tool = false        # 撤回工具
+enable_mute_tool = false          # 智能禁言工具
+enable_emoji_like_tool = false    # 表情表态工具
+enable_forward_tool = false       # 合并转发工具
+
+[notice]
+enabled = true                      # 整体转发通知事件
+enable_poke = true                  # 戳一戳
+enable_friend_recall = true         # 好友消息撤回
+enable_group_recall = true          # 群消息撤回
+enable_group_ban = true             # 群禁言 / 解除禁言
+enable_group_msg_emoji_like = true  # 群消息表情回应
+enable_group_upload = true          # 群文件上传
+enable_group_increase = true        # 入群
+enable_group_decrease = true        # 退群
+enable_group_admin = true           # 管理员变动
+enable_essence = true               # 精华消息变动
+enable_group_name = true            # 群名变更
+
+[filters]
+ban_user_id = []                  # 用户黑名单（QQ 号），其消息直接丢弃
+ban_qq_bot = false                # 屏蔽 QQ 官方机器人消息
+regex_filter_enabled = false      # 启用正则消息过滤
+regex_filter_mode = "blacklist"   # blacklist 匹配则丢弃 / whitelist 仅放行匹配
+regex_filter_patterns = []        # 正则表达式列表，Python re 语法
+regex_filter_show_dropped = false # 记录正则过滤丢弃日志
+
+[debug]
+enable_ada_debug_raw_message_log = false           # 记录入站原始消息段
+enable_ada_debug_raw_outbound_message_log = false  # 记录出站 action 与 params
+ignore_self_message = false                         # 忽略机器人自身消息
+
+[mute]
+admin_users = []        # 禁言保护名单（QQ 号）
+allowed_groups = []     # 允许禁言的群白名单，留空不限制
+min_duration = 60       # 最短禁言时长（秒）
+max_duration = 2592000  # 最长禁言时长（秒），默认 30 天
